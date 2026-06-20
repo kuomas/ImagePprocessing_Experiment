@@ -1,49 +1,125 @@
-#### 实验环境：
+# Template - CMake 项目模板
 
-* windows11
-* MinGW64 8.1.0(使用其中的 `g++` 构建)
-* opencv 4.6.0
-* vscode
+一个基于现代 CMake 的 C++17 项目模板，使用 CMake + Ninja + GCC (MinGW) 工具链。
 
-#### 实验简要说明
+## 目录结构
 
-##### EXP_1
+```
+CMakeTemplate/
+├── cmake/                    # CMake 配置
+│   ├── compiler.cmake        # 编译器设置（C++17、警告、优化）
+│   └── toolchain.cmake       # 工具链配置（Windows MinGW）
+├── external/                 # 第三方库（通过 FetchContent 管理）
+│   └── CMakeLists.txt        # 外部库统一管理
+├── include/                  # 公共头文件
+├── src/                      # 源代码
+│   ├── CMakeLists.txt        # 源码目录配置
+│   └── main.cpp              # 主程序入口
+├── tests/                    # 测试代码
+│   ├── CMakeLists.txt        # 测试目录配置
+│   └── test_main.cpp         # Google Test 测试用例
+├── CMakeLists.txt            # 根 CMake 配置
+├── CMakePresets.json         # CMake 预设（构建/测试）
+└── README.md                 # 本文件
+```
 
-1. 读取摄像头视频
-2. 实现灰度直方图的计算
-3. 计算视频中每帧图像的的直方图并实时绘制显示
-4. 均衡化直方图并显示
-5. 使用均衡化后的直方图增强图像并显示
-6. 使用多线程
+## 功能特性
 
-##### EXP_2
+- **现代 CMake**: 使用 CMake 3.21+ 的最佳实践
+- **C++17 标准**: 强制启用 C++17 特性
+- **构建预设**: 支持 Debug/Release/RelWithDebInfo 多种构建配置
+- **测试框架**: 集成 Google Test 进行单元测试（通过 FetchContent 自动下载）
 
-1. 实现双边滤波算法；
-2. 使用实现的算法处理图片
-3. 同时显示原图和处理结果图
+## 快速开始
 
-##### EXP_3
+### 环境要求
 
-1. 实现灰度共生矩阵的计算（仿照了[Matlab](https://ww2.mathworks.cn/help/images/ref/graycomatrix.html)的实现思路）
-2. 重复多次随机选取图像的部分（例如10*10大小）使用灰度共生矩阵计算各个纹理特侦值
-3. 以横轴为能量特征，纵轴为熵特征，在坐标系中汇出特征值的位置；
-4. 以横轴为能量特征，纵轴为熵特征，在坐标系中汇出特征值的位置；
-5. 以横轴为相关性特征，纵轴为对比度特征，在坐标系中汇出特征值的位置
-6. 显示绘制的结果
+| 工具 | 版本 | 说明 |
+|------|------|------|
+| CMake | 3.21+ | 构建系统 |
+| Ninja | 最新稳定版 | 构建生成器 |
+| GCC (MinGW) | 11+ | Windows 编译器 |
+| C++ 标准 | C++17 | 强制启用 |
 
-##### EXP_4
+### 配置项目
 
-1. 编写一个程序，用来修改图像的色彩鲜艳度
-2. 显示调整后的结果
+```powershell
+# 使用预设配置（Debug）
+cmake --preset debug
 
-##### EXP_5
+# 或使用 Release
+cmake --preset release
+```
 
-1. 实现模板匹配算法
-2. 使用实现的模板匹配算法在一张图像中找到指定目标
-3. 显示结果
+### 构建项目
 
-##### EXP_6
+```powershell
+# Debug 模式
+cmake --build build/debug
 
-1. 实现K-Means算法
-2. 使用K-Means算法将图像分为两类
-3. 显示分类结果
+# Release 模式
+cmake --build build/release
+```
+
+### 运行程序
+
+```powershell
+.\build\debug\bin\<项目名>.exe
+```
+
+### 运行测试
+
+```powershell
+# 配置并构建测试
+cmake --preset debug
+
+# 运行测试
+ctest --test-dir build/debug --output-on-failure
+```
+
+## 添加新代码模块
+
+### 添加源文件
+
+直接在 `src/` 目录下添加 `.cpp` 文件，然后在 `src/CMakeLists.txt` 中引用。
+
+### 添加头文件
+
+将公共头文件放在 `include/` 目录下，项目中通过 `#include "header.h"` 引用即可。
+
+### 添加新模块（子目录）
+
+1. 在 `src/` 下创建新目录（如 `src/network/`）
+2. 在该目录下创建 `CMakeLists.txt`
+3. 在 `src/CMakeLists.txt` 中通过 `add_subdirectory()` 引用
+
+## 添加第三方库
+
+1. 第三方库会通过 `external/CMakeLists.txt` 中的 FetchContent 自动下载
+2. 在 `external/CMakeLists.txt` 中添加 FetchContent 配置
+
+```cmake
+# external/CMakeLists.txt
+include(FetchContent)
+FetchContent_Declare(
+    some_lib
+    GIT_REPOSITORY https://github.com/xxx/some_lib.git
+    GIT_TAG v1.0.0
+)
+FetchContent_MakeAvailable(some_lib)
+```
+
+3. 在目标中通过 `target_link_libraries()` 链接
+
+```cmake
+# src/CMakeLists.txt
+target_link_libraries(${PROJECT_NAME} PRIVATE some_lib::some_lib)
+```
+
+## 构建预设说明
+
+| 预设 | 构建类型 | 说明 |
+|------|----------|------|
+| `debug` | Debug | 无优化，带调试信息 |
+| `release` | Release | 最大优化，无调试信息 |
+| `relwithdebinfo` | RelWithDebInfo | 适度优化，带调试信息 |
