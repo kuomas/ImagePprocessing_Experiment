@@ -6,7 +6,7 @@
 using cv::imread;
 using cv::waitKey;
 
-int exp2_main()
+int exp2_main(void)
 {
     Mat out_img;
     Mat src_img = imread("../../../resource/exp2_example.jpg", 0); // 读取图片并转为单通道，即灰度图

@@ -62,7 +62,7 @@ void imsShow(Mat& hist_img, Mat& gray_img, Mat& equal_hist_img, Mat& enhance_img
     }
 }
 
-int exp1_main()
+int exp1_main(void)
 {
     Mat    gray_img(384, 512, CV_8UC1, Scalar(0));
     Mat    hist_img(gray_img);
