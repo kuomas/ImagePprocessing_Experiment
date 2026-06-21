@@ -12,8 +12,9 @@
 extern int exp1_main(void);
 extern int exp2_main(void);
 extern int exp3_main(void);
+extern int exp4_main(void);
 
 int main(void)
 {
-    exp3_main();
+    exp4_main();
 }
