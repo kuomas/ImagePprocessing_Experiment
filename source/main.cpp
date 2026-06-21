@@ -1,17 +1,17 @@
 /*******************************************************************************
  * @file      main.cpp
- * @author    xkuuo (ke.l@foxmail.com)
+ * @author    kuomas (ke.l@foxmail.com)
  * @version   1.0.0
- * @date      2026-06-19
+ * @date      2026-06-21
  *
  * @copyright Copyright (c) 2026
- * @brief     程序主入口点
+ * @brief     程序入口
  *
  ******************************************************************************/
 
-#include <iostream>
+extern int exp1_main();
 
 int main(void)
 {
-    return 0;
+    exp1_main();
 }

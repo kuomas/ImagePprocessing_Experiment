@@ -3,7 +3,8 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "D:/03_Tools/OpenCV/include"
             ],
             "defines": [
                 "_DEBUG",

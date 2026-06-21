@@ -16,8 +16,7 @@ if(NOT EXISTS "${CMAKE_SOURCE_DIR}/external/googletest")
     # 本地不存在，通过 FetchContent 自动下载
     include(FetchContent)
     FetchContent_Declare(
-        googletest
-        GIT_REPOSITORY https://github.com/google/googletest.git
+        googletest GIT_REPOSITORY https://github.com/google/googletest.git 
         GIT_TAG v1.17.0
         SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/googletest"
     )
@@ -29,3 +28,8 @@ endif()
 
 # 抑制 gtest 的某个编译警告
 target_compile_options(gtest PRIVATE -Wno-null-dereference)
+set(OpenCV_DIR D:/03_Tools/OpenCV)
+find_package(OpenCV REQUIRED)
+target_link_libraries(
+    ${PROJECT_NAME} ${OpenCV_LIBS}
+)

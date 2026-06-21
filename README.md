@@ -1,125 +1,101 @@
-# Template - CMake 项目模板
 
-一个基于现代 CMake 的 C++17 项目模板，使用 CMake + Ninja + GCC (MinGW) 工具链。
+# 数字图像处理实验项目
 
-## 目录结构
+本项目是一个基于 C++ 和 OpenCV 的数字图像处理实验，包含多个图像处理算法的实现与可视化实验。项目使用 CMake 作为构建系统，支持多实验并行开发与管理。
 
-```
-CMakeTemplate/
-├── cmake/                    # CMake 配置
-│   ├── compiler.cmake        # 编译器设置（C++17、警告、优化）
-│   └── toolchain.cmake       # 工具链配置（Windows MinGW）
-├── external/                 # 第三方库（通过 FetchContent 管理）
-│   └── CMakeLists.txt        # 外部库统一管理
-├── include/                  # 公共头文件
-├── src/                      # 源代码
-│   ├── CMakeLists.txt        # 源码目录配置
-│   └── main.cpp              # 主程序入口
-├── tests/                    # 测试代码
-│   ├── CMakeLists.txt        # 测试目录配置
-│   └── test_main.cpp         # Google Test 测试用例
-├── CMakeLists.txt            # 根 CMake 配置
-├── CMakePresets.json         # CMake 预设（构建/测试）
-└── README.md                 # 本文件
-```
+## 📋 实验环境
 
-## 功能特性
+| 项目 | 配置 |
+|------|------|
+| 操作系统 | Windows 11 |
+| 编译器 | MinGW64 g++ (GCC 11.2.0) |
+| OpenCV | 4.6.0 |
+| 构建系统 | CMake 3.21+ / Ninja |
+| 开发工具 | VSCode |
 
-- **现代 CMake**: 使用 CMake 3.21+ 的最佳实践
-- **C++17 标准**: 强制启用 C++17 特性
-- **构建预设**: 支持 Debug/Release/RelWithDebInfo 多种构建配置
-- **测试框架**: 集成 Google Test 进行单元测试（通过 FetchContent 自动下载）
+## 🔧 构建与运行
 
-## 快速开始
+### 构建方式
 
-### 环境要求
+项目使用 CMake 预设配置，支持多种构建模式：
 
-| 工具 | 版本 | 说明 |
-|------|------|------|
-| CMake | 3.21+ | 构建系统 |
-| Ninja | 最新稳定版 | 构建生成器 |
-| GCC (MinGW) | 11+ | Windows 编译器 |
-| C++ 标准 | C++17 | 强制启用 |
+```bash
+# 配置 Debug 版本
+cmake --preset=debug
+cmake --build --preset=debug
 
-### 配置项目
+# 配置 Release 版本
+cmake --preset=release
+cmake --build --preset=release
 
-```powershell
-# 使用预设配置（Debug）
-cmake --preset debug
-
-# 或使用 Release
-cmake --preset release
+# 配置 RelWithDebInfo 版本
+cmake --preset=relwithdebinfo
+cmake --build --preset=relwithdebinfo
 ```
 
-### 构建项目
+### 运行实验
 
-```powershell
-# Debug 模式
-cmake --build build/debug
+```bash
+# 运行默认实验
+./build/debug/ImagePprocessing_Experiment
 
-# Release 模式
-cmake --build build/release
 ```
 
-### 运行程序
+## 📚 实验内容
 
-```powershell
-.\build\debug\bin\<项目名>.exe
-```
+### EXP_1：灰度直方图与图像增强
 
-### 运行测试
+实现并可视化图像灰度直方图计算、均衡化及图像增强功能。
 
-```powershell
-# 配置并构建测试
-cmake --preset debug
+**功能列表：**
+- 读取摄像头视频流
+- 计算灰度直方图
+- 实时绘制并显示直方图
+- 直方图均衡化处理
+- 均衡化后的图像增强
+- 多线程图像处理与显示
 
-# 运行测试
-ctest --test-dir build/debug --output-on-failure
-```
+### EXP_2：双边滤波
 
-## 添加新代码模块
+实现双边滤波算法，用于图像去噪同时保留边缘信息。
 
-### 添加源文件
+**功能列表：**
+- 自定义双边滤波算法实现
+- 使用双边滤波算法对图像降噪处理
+- 原图与处理结果对比显示
 
-直接在 `src/` 目录下添加 `.cpp` 文件，然后在 `src/CMakeLists.txt` 中引用。
+### EXP_3：图像纹理特征提取
 
-### 添加头文件
+基于灰度共生矩阵（GLCM）实现图像纹理特征分析与可视化。
 
-将公共头文件放在 `include/` 目录下，项目中通过 `#include "header.h"` 引用即可。
+**功能列表：**
+- 灰度共生矩阵计算（参考 MATLAB 实现）[Matlab](https://ww2.mathworks.cn/help/images/ref/graycomatrix.html)
+- 随机图像块采样与纹理特征重复计算
+- 特征向量统计分析
+- 特征散点图可视化：
+  - 能量 vs 熵
+  - 相关性 vs 对比度
 
-### 添加新模块（子目录）
+### EXP_4：色彩鲜艳度调整
 
-1. 在 `src/` 下创建新目录（如 `src/network/`）
-2. 在该目录下创建 `CMakeLists.txt`
-3. 在 `src/CMakeLists.txt` 中通过 `add_subdirectory()` 引用
+实现图像色彩鲜艳度调节功能。
 
-## 添加第三方库
+**功能列表：**
+- 读取图像
+- 调整色彩鲜艳度
+- 结果实时预览显示
 
-1. 第三方库会通过 `external/CMakeLists.txt` 中的 FetchContent 自动下载
-2. 在 `external/CMakeLists.txt` 中添加 FetchContent 配置
+##### EXP_5 模板匹配
 
-```cmake
-# external/CMakeLists.txt
-include(FetchContent)
-FetchContent_Declare(
-    some_lib
-    GIT_REPOSITORY https://github.com/xxx/some_lib.git
-    GIT_TAG v1.0.0
-)
-FetchContent_MakeAvailable(some_lib)
-```
+- 实现模板匹配算法
+- 使用实现的模板匹配算法在一张图像中找到指定目标
+- 显示结果
 
-3. 在目标中通过 `target_link_libraries()` 链接
+### EXP_6：K-Means 图像分割
 
-```cmake
-# src/CMakeLists.txt
-target_link_libraries(${PROJECT_NAME} PRIVATE some_lib::some_lib)
-```
+实现 K-Means 聚类算法用于图像分割。
 
-## 构建预设说明
-
-| 预设 | 构建类型 | 说明 |
-|------|----------|------|
-| `debug` | Debug | 无优化，带调试信息 |
-| `release` | Release | 最大优化，无调试信息 |
-| `relwithdebinfo` | RelWithDebInfo | 适度优化，带调试信息 |
+**功能列表：**
+- K-Means 聚类算法实现
+- 图像像素聚类分割
+- 分割结果可视化显示

@@ -13,6 +13,8 @@
 add_executable(
     ${PROJECT_NAME}
     main.cpp
+    exp1_main.cpp
+    hist.cpp
 )
 
 # 配置头文件搜索路径（公共）

@@ -40,7 +40,7 @@ include(compiler)
 # =============================================================================
 
 # 源代码目录
-add_subdirectory(src)
+add_subdirectory(source)
 
 # 第三方库目录（通过 FetchContent 管理依赖）
 add_subdirectory(external)
