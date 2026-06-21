@@ -18,9 +18,11 @@ add_executable(
     exp3_main.cpp
     exp4_main.cpp
     exp5_main.cpp
+    exp6_main.cpp
     hist.cpp
     bilateral_filter.cpp
     texture_feature.cpp
+    mat_kmeans.cpp
 )
 
 # 配置头文件搜索路径（公共）
