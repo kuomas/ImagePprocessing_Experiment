@@ -14,7 +14,9 @@ add_executable(
     ${PROJECT_NAME}
     main.cpp
     exp1_main.cpp
+    exp2_main.cpp
     hist.cpp
+    bilateral_filter.cpp
 )
 
 # 配置头文件搜索路径（公共）

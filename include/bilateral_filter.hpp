@@ -1,7 +1,7 @@
 #ifndef BILATERAL_FILTER_HPP
 #define BILATERAL_FILTER_HPP
 
-#include <core/mat.hpp>
+#include <opencv2/core/mat.hpp>
 
 using cv::Mat;
 
