@@ -17,6 +17,7 @@ add_executable(
     exp2_main.cpp
     exp3_main.cpp
     exp4_main.cpp
+    exp5_main.cpp
     hist.cpp
     bilateral_filter.cpp
     texture_feature.cpp

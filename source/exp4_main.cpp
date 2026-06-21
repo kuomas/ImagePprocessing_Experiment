@@ -36,7 +36,7 @@ void trackbarCallback(int vividness, void* src)
     imshow("Enhanced Image", out_img);                            // 显示
 }
 
-int exp4_main()
+int exp4_main(void)
 {
     Mat src_img = imread("../../../resource/exp4_example.jpg"); // 读取一张彩色图像
     Mat out_img;

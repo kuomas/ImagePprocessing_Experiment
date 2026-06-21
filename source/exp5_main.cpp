@@ -1,5 +1,5 @@
-#include <imgproc.hpp>
-#include <highgui.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 
 using cv::BORDER_DEFAULT;
 using cv::imread;
@@ -11,21 +11,21 @@ using cv::Scalar;
 using cv::Size;
 using cv::waitKey;
 
-int main()
+int exp5_main(void)
 {
-    Mat src_img = imread("..\\res\\example.png", 0);
-    Mat temp_img = imread("..\\res\\template.png", 0);
+    Mat src_img  = imread("../../../resource/exp5_example.png", 0);
+    Mat temp_img = imread("../../../resource/exp5_template.png", 0);
     Mat result_img(src_img.rows, src_img.cols, CV_64FC1);
     Mat temp_result(src_img.rows, src_img.cols, CV_8UC1);
     Mat process_img;
     copyMakeBorder(src_img, process_img, 0, temp_img.rows, 0, temp_img.cols, BORDER_DEFAULT);
-    for (int i = 0; i != process_img.rows - temp_img.rows; ++i)
-        for (int j = 0; j != process_img.cols - temp_img.cols; ++j)
+    for(int i = 0; i != process_img.rows - temp_img.rows; ++i)
+        for(int j = 0; j != process_img.cols - temp_img.cols; ++j)
         {
-            Mat _img = process_img(Rect(j, i, temp_img.cols, temp_img.rows));
-            double sum = 0;
-            for (int m = 0; m != temp_img.rows; ++m)
-                for (int n = 0; n != temp_img.cols; ++n)
+            Mat    _img = process_img(Rect(j, i, temp_img.cols, temp_img.rows));
+            double sum  = 0;
+            for(int m = 0; m != temp_img.rows; ++m)
+                for(int n = 0; n != temp_img.cols; ++n)
                 {
                     sum += pow((_img.at<uchar>(m, n) - temp_img.at<uchar>(m, n)), 2);
                 }
